@@ -37,15 +37,17 @@ class _SampleViewState extends State<SampleView> {
             invertedSelection: true,
             children: [
               ButtonBarEntry(
-                  onTap: () => print('First item tapped'), child: Text('Day')),
+                  onTap: () => print('First item tapped'),
+                  child: (isActive) => Text('Day')),
               ButtonBarEntry(
                   onTap: () => print('Second item tapped'),
-                  child: Text('Week')),
+                  child: (isActive) => Text('Week')),
               ButtonBarEntry(
                   onTap: () => print('Third item tapped'),
-                  child: Text('Month')),
+                  child: (isActive) => Text('Month')),
               ButtonBarEntry(
-                  onTap: () => print('Fourth item tapped'), child: Text('Year'))
+                  onTap: () => print('Fourth item tapped'),
+                  child: (isActive) => Text('Year'))
             ],
           ),
           //You can populate it with different types of widgets like Icon
@@ -61,10 +63,10 @@ class _SampleViewState extends State<SampleView> {
             children: [
               ButtonBarEntry(
                   onTap: () => print('First item tapped'),
-                  child: Icon(Icons.person)),
+                  child: (isActive) => Icon(Icons.person)),
               ButtonBarEntry(
                   onTap: () => print('Second item tapped'),
-                  child: Icon(Icons.people)),
+                  child: (isActive) => Icon(Icons.people)),
             ],
           ),
         ],
