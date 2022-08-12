@@ -2,6 +2,19 @@ library animated_button_bar;
 
 import 'package:flutter/material.dart';
 
+class AnimatedButtonBarController {
+  AnimatedButtonBarController();
+
+  Function(int index)? _onChange;
+  void _onChangeListener(Function(int index) onChange) {
+    _onChange = onChange;
+  }
+
+  void changeIndex(int index) {
+    _onChange?.call(index);
+  }
+}
+
 ///A row of buttons with animated selection
 class AnimatedButtonBar extends StatefulWidget {
   ///Duration for the selection animation
@@ -26,8 +39,11 @@ class AnimatedButtonBar extends StatefulWidget {
   ///Invert color of the child when true
   final bool invertedSelection;
 
+  final AnimatedButtonBarController? controller;
+
   const AnimatedButtonBar({
     Key? key,
+    this.controller,
     required this.children,
     this.animationDuration = const Duration(milliseconds: 200),
     this.backgroundColor,
@@ -56,6 +72,7 @@ class _AnimatedButtonBarState extends State<AnimatedButtonBar> {
   void initState() {
     _index = widget.defultIndex;
     super.initState();
+    widget.controller?._onChangeListener((i) => setState(() => _index = i));
   }
 
   @override
@@ -114,7 +131,7 @@ class _AnimatedButtonBarState extends State<AnimatedButtonBar> {
                               child: InkWell(
                                 onTap: () {
                                   try {
-                                    sideButton.onTap();
+                                    sideButton.onTap?.call();
                                     widget.onChanged?.call(i);
                                   } catch (e) {
                                     print('onTap implementation is missing');
@@ -156,6 +173,6 @@ class _AnimatedButtonBarState extends State<AnimatedButtonBar> {
 
 class ButtonBarEntry {
   final Widget Function(bool isActive) child;
-  final VoidCallback onTap;
-  ButtonBarEntry({required this.child, required this.onTap});
+  final VoidCallback? onTap;
+  ButtonBarEntry({required this.child, this.onTap});
 }
